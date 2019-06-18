@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Router, Route } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import createRoutes from './route';
 import './App.css';
+
+const history = createBrowserHistory()
+
+function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      render={props => <route.component {...props} routes={route.routes} />}
+    />
+  );
+}
+
+const routes = createRoutes();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router
+      history={history}
+    >
+      {
+        routes.map((route, i) => {
+          // console.log('route', route);
+          return <RouteWithSubRoutes key={i} {...route} />
+        })
+      }
+    </Router>
   );
 }
 

@@ -1,0 +1,7 @@
+.collapse>.collapse-content {
+  display: none;
+}
+
+.collapse.unfold>.collapse-content {
+  display: block;
+}

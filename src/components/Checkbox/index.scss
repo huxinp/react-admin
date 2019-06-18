@@ -1,0 +1,148 @@
+$prefixCls: input__check;
+
+// 多选
+.#{$prefixCls}-checkbox {
+  display: inline-block;
+  position: relative;
+  margin: 0 3px;
+  vertical-align: middle;
+  line-height: 2px;
+  cursor: pointer;
+  input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
+    outline: none;
+    vertical-align: middle;
+    line-height: 0;
+    z-index: -1;
+  }
+  span {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    top: -1px;
+    &::before {
+      content: '';
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      transform: translateY(-70%) rotate(-45deg);
+      width: 12px;
+      height: 6px;
+      border: 3px solid #fff;
+      border-width: 0 0 3px 3px;
+    }
+    &::after {
+      content: '';
+      display: none;
+      position: absolute;
+      width: 10px;
+      height: 4px;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      background-color: #fff;
+    }
+  }
+  span:hover {
+    border-color: rgba(239,76,79,.5);
+  }
+  &-checked {
+    span {
+      background: rgba(239,76,79,1);
+      border-color: rgba(239,76,79,1);
+    }
+    span::before {
+      display: block;
+    }
+    span:hover {
+      background: rgba(239,76,79,.7);
+      border-color: rgba(239,76,79,.3);
+      &::before {
+
+      }
+    }
+  }
+  &-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &-indeterminate:not(&-checked) {
+    span {
+      background: rgba(239,76,79,.3);
+      border-color: rgba(239,76,79,.2);
+      &::after {
+        display: block;
+      }
+    }
+  }
+}
+
+// 单选
+.#{$prefixCls}-radio {
+  display: inline-block;
+  position: relative;
+  margin: 0 3px;
+  vertical-align: middle;
+  line-height: 2px;
+  cursor: pointer;
+  input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
+    outline: none;
+    vertical-align: middle;
+    line-height: 0;
+    z-index: -1;
+  }
+  span {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    top: -1px;
+  }
+  span:hover {
+    border-color: rgba(239,76,79,.5);
+  }
+  &-checked {
+    span {
+      width: 8px;
+      height: 8px;
+      border: 6px solid rgba(239,76,79,1);
+    }
+    span:hover {
+      border-color: rgba(239,76,79,.3);
+    }
+  }
+  &-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// 全选组
+.#{$prefixCls}-checkbox-all-group {
+  .#{$prefixCls}-checkbox-all-group-inner {
+    padding-left: 20px;
+  }
+}

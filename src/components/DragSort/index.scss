@@ -1,0 +1,44 @@
+
+.card {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 3px;
+  padding: 10px;
+  height: 50px;
+  line-height: 50px;
+  user-select: none;
+  border: 1px solid #ccc;
+  .drag-handle {
+    margin-left: auto;
+    cursor: move;
+  }
+}
+.drag-wrap {
+  position: relative;
+  width: 300px;
+  height: 600px;
+  border: 1px solid #ccc;
+  padding: 10px 0;
+  .drag-list {
+    height: 100%;
+    overflow-y: auto;
+    user-select: none;
+  }
+  .hover-handle {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 10px;
+    background-color: #efefef;
+    &:hover {
+      background-color: #efe;
+    }
+    &.top-hover {
+      top: 0;
+    }
+    &.bottom-hover {
+      bottom: 0;
+    }
+  }
+
+}

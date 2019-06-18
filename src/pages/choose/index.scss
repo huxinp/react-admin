@@ -1,0 +1,56 @@
+.choose-wraper {
+  width: 1000px;
+  padding: 50px;
+}
+
+.panel {
+  display: flex;
+  height: 34px;
+  line-height: 34px;
+  &>span {
+    margin-left: auto;
+  }
+}
+
+.semester {
+  padding-left: 20px;
+}
+.sub-collapse {
+  padding-left: 20px;
+}
+.three-level {
+  padding-left: 20px;
+}
+.last-level {
+  display: flex;
+  &>label {
+    padding: 5px 10px;
+    white-space: nowrap;
+  }
+  &>div {
+    display: flex;
+    flex-wrap: wrap;
+    .four-level {
+      padding: 1px 4px;
+      margin: 2px 5px;;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}
+.well {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.one {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  height: 50px;
+  line-height: 50px;
+}
+
+.check-all-group {
+  
+}
