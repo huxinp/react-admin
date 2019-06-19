@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classanmes from 'classnames';
 import Checkbox from '../Checkbox';
 import Group from './Group';
-import { deepMap, compareArray } from '../utils';
+import { deepMap, compareArray, parseArr2Obj } from '../utils';
 import { loop } from '../utils';
 export default class CheckboxAll extends React.PureComponent {
   constructor(props) {
@@ -11,9 +11,10 @@ export default class CheckboxAll extends React.PureComponent {
     const nodeValues = deepMap(props.options);
     this.state = {
       checked: false,
-      value: [],
+      indexValue: [],
       indeterminate: false, // true 时 为半选
       nodeValues,
+      indexData: {},
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -36,74 +37,81 @@ export default class CheckboxAll extends React.PureComponent {
       if (checked && !defaultValue.includes(item)) {
         checked = false;
       }
-    })
-    this.setState({
-      checked,
-      value: defaultValue,
-      indeterminate: !checked && !unChecked,
-    })
-    console.log('init', defaultValue)
-  }
-  parentChange = (e, data) => {
-    const { onChange } = this.props;
-    let { checked, indeterminate, value, nodeValues } = this.state;
-    let list = [...value];
-    if (e.checked) { // 全选
-      console.log('p', '全选')
-      checked = true;
-      list = nodeValues;
-      indeterminate = false;
-      console.log('p', '全选', 'list', list);
-    } else if (!e.target.checked && !e.target.indeterminate) { // 全不选
-      console.log('p', '全不选')
-      checked = false;
-      list = [];
-      indeterminate = false;
-    } else {
-      console.log('p', '半选?')
-    }
-    this.setState({
-      checked,
-      indeterminate,
-      value: list,
     });
-    console.log('p', 'e', e, 'data', { checkedList: list, nodeValues })
-    onChange(e, { checkedList: list, nodeValues })
+    this.setState({
+      checked,
+      indexValue: defaultValue,
+      indeterminate: !checked && !unChecked,
+    });
   }
-  childChange = (e, data) => {
-    let { checked, indeterminate } = this.state;
-    if (data.checkedList.length === 0) { // 取消勾选
-      console.log('c', '取消勾选', 'e', e, 'data', data);
-      checked = false;
-      indeterminate = false;
-    } else if (compareArray(data.checkedList, data.nodeValues)) { // 勾选
-      console.log('c', '勾选', 'e', e, 'data', data);
-      checked = true;
-      indeterminate = false;
-    } else { // 半选
-      console.log('c', '半选', 'e', e, 'data', data);
-      checked = false;
-      indeterminate = true;
+  handleChange = (e, data) => {
+    const { onChange, options } = this.props;
+    let { checked, indeterminate, indexValue, nodeValues } = this.state;
+    if (data) { // 子节点传递上来的
+      console.log('index', 'data', data.checkedData)
+      if (data.checkedList.length === 0) { // 取消勾选
+        checked = false;
+        indeterminate = false;
+      } else if (compareArray(data.checkedList, data.nodeValues)) { // 勾选
+        checked = true;
+        indeterminate = false;
+      } else { // 半选
+        checked = false;
+        indeterminate = true;
+      }
+      console.log('index', 'data', 'e', e,  data.checkedData)
+    } else { // 中间节点直接操作
+      console.log('index', '!data')
+      let list = [...indexValue];
+      if (e.checked) { // 全选
+        checked = true;
+        list = nodeValues;
+        indeterminate = false;
+      } else if (!e.target.checked && !e.target.indeterminate) { // 全不选
+        checked = false;
+        list = [];
+        indeterminate = false;
+      } else {
+        console.log('p', '半选?')
+      }
+      const checkedData = {
+        ...parseArr2Obj(list),
+        nodeValues,
+        checkedList: list,
+      };
+      data = { checkedList: list, nodeValues, checkedData };
+    }
+    const checkedData = {
+      [options.value]: {
+        checked,
+        indeterminate,
+        nodeValues,
+        checkedList: data.checkedList,
+        checkedData: {...data.checkedData},
+        value: options.value
+      }
     }
     this.setState({
       checked,
       indeterminate,
-      value: data.checkedList,
+      indexValue: data.checkedList,
+      data: {...checkedData},
     })
-    this.props.onChange(e, data)
+
+    data.checkedData = checkedData;
+    onChange(e, data)
   }
   render () {
     const { options, prefixCls, className } = this.props;
-    const { checked, value, indeterminate, nodeValues } = this.state;
+    const { checked, indexValue, indeterminate, nodeValues } = this.state;
     const stringClassnameGroup = classanmes(className, `${prefixCls}-checkbox-all-group`)
     const stringClassnameGroupInner = classanmes(`${prefixCls}-checkbox-all-group-inner`, {
       [`${className}-inner`]: className,
-    })
-    console.log(options.value, 'checked', checked, 'indeterminate', indeterminate)
+    });
     /*
       if (Object.prototype.toString.call(options) === '[object Array]') {
         return (
-          <Group onChange={this.childChange} defaultValue={value} nodeValues={nodeValues}>
+          <Group onChange={this.childChange} defaultValue={indexValue} nodeValues={nodeValues}>
             {
               options.children.map(item => {
                 if (item.children) {
@@ -119,13 +127,13 @@ export default class CheckboxAll extends React.PureComponent {
     */
     return (
       <div className={stringClassnameGroup}>
-        <Checkbox onChange={this.parentChange} checked={checked} prefixCls={prefixCls} indeterminate={indeterminate} value={options.value}>{options.label}</Checkbox>
+        <Checkbox onChange={this.handleChange} checked={checked} prefixCls={prefixCls} indeterminate={indeterminate} value={options.value}>{options.label}</Checkbox>
         <div className={stringClassnameGroupInner}>
-          <Group onChange={this.childChange} defaultValue={value} nodeValues={nodeValues}>
+          <Group onChange={this.handleChange} defaultValue={indexValue} nodeValues={nodeValues}>
             {
               options.children.map(item => {
                 if (item.children) {
-                  return <CheckboxAll key={item.value} options={item} value={item.value} defaultValue={value} className={className} prefixCls={prefixCls} />
+                  return <CheckboxAll key={item.value} options={item} value={item.value} defaultValue={indexValue} className={className} prefixCls={prefixCls} />
                 } else {
                   return <Checkbox key={item.value} prefixCls={prefixCls} value={item.value}>{item.label}</Checkbox>
                 }

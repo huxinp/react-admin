@@ -2,7 +2,6 @@ import React from 'react';
 import Input from '../Input';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import Group from '../Group';
 import '../index.scss';
 
 export default class Checkbox extends React.PureComponent {
@@ -19,9 +18,6 @@ export default class Checkbox extends React.PureComponent {
     )
   }
 }
-Checkbox.Group = function (props) {
-  return <Group type="checkbox" {...props} />
-};
 Checkbox.defaultProps = {
   prefixCls: 'input__check',
   className: '',

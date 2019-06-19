@@ -29,3 +29,18 @@ export function compareArray (arr1, arr2) {
   if (arr1.length !== arr2.length) return false
   return JSON.stringify(arr1.sort()) === JSON.stringify(arr2.sort())
 }
+export function parseArr2Obj (arr) {
+  const obj = {};
+  const options = {
+    checked: true,
+    indeterminate: false,
+  }
+  arr.map(i => {
+    obj[i] = {
+      ...options,
+      value: i
+    }
+    return i;
+  })
+  return obj;
+}

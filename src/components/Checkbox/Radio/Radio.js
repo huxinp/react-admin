@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Input from '../Input';
-import Group from '../Group';
 import '../index.scss';
 
 export default class Radio extends React.PureComponent {
@@ -19,9 +18,6 @@ export default class Radio extends React.PureComponent {
     )
   }
 }
-Radio.Group = function (props) {
-  return <Group type="radio" {...props} />
-};
 Radio.defaultProps = {
   prefixCls: 'input__check',
   className: '',

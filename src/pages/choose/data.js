@@ -1,4 +1,4 @@
-export default [{
+export const data1 = [{
 	"id": 172,
 	"name": "寒假",
 	"courseHour": 20.0,
@@ -2456,3 +2456,44 @@ export default [{
 	"ilaFlag": 0,
 	"pid": 0
 }]
+
+export const data2 = [
+	{
+		label: 'a',
+		value: 'a',
+		children: [
+			{
+				label: 'aa',
+				value: 'aa',
+				children: [
+					{
+						label: 'aaa',
+						value: 'aaa',
+					},
+					{
+						label: 'aab',
+						value: 'aab',
+					},
+				]
+			},
+			{
+				label: 'ab',
+				value: 'ab',
+			},
+		]
+	},
+	{
+		label: 'b',
+		value: 'b',
+		children: [
+			{
+				label: 'ba',
+				value: 'ba',
+			},
+			{
+				label: 'bb',
+				value: 'bb',
+			},
+		]
+	}
+]

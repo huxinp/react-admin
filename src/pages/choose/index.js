@@ -6,8 +6,8 @@ import Collapse from '../../components/Collapse';
 
 import './index.scss';
 
-import data from './data';
-data.map(item => {
+import { data1, data2 } from './data';
+data1.map(item => {
   item.label = item.name;
   item.value = item.id;
   item.children.map(ite => {
@@ -55,7 +55,7 @@ export default class Choose extends React.Component {
   }
   makeCheckboxGroup = () => {
     const options = [];
-    data.map(it => options.push({
+    data1.map(it => options.push({
       value: it.id,
       label: it.name,
     }))
@@ -68,7 +68,7 @@ export default class Choose extends React.Component {
     return (
       <Collapse.Group className="semester">
         {
-          data.map(it => {
+          data1.map(it => {
             const open = openIds.includes(it.id);
             return (
               <Collapse
@@ -120,51 +120,9 @@ export default class Choose extends React.Component {
     )
   }
   changeHandle = (e, data) => {
-    console.log('choose', 'e', e, 'data', data)
-    // 每次有变更之后, 都需要计算一下, 找到其父节点, 更改父节点的状态,  改变了父节点的状态后也要计算更改祖先节点的状态,
-    // 每次父组件(全选/全不选)更改之后, 也要计算子节点的状态
+    console.log('choose', data.checkedData)
   }
   render () {
-    const data = [
-      {
-        label: 'a',
-        value: 'a',
-        children: [
-          {
-            label: 'aa',
-            value: 'aa',
-            children: [
-              {
-                label: 'aaa',
-                value: 'aaa',
-              },
-              {
-                label: 'aab',
-                value: 'aab',
-              },
-            ]
-          },
-          {
-            label: 'ab',
-            value: 'ab',
-          },
-        ]
-      },
-      // {
-      //   label: 'b',
-      //   value: 'b',
-      //   children: [
-      //     {
-      //       label: 'ba',
-      //       value: 'ba',
-      //     },
-      //     {
-      //       label: 'bb',
-      //       value: 'bb',
-      //     },
-      //   ]
-      // }
-    ]
     return (
       <div className="choose-wraper">
         {/* { this.makeSemester() }
@@ -175,7 +133,7 @@ export default class Choose extends React.Component {
         { this.makeCheckboxGroup() }
         <CheckboxAll name="all" label="All" onChange={this.changeHandle} options={data} /> */}
         {
-          data.map(item => {
+          data2.map(item => {
             return (
               <div className="well" key={item.value}>
                 <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={item} />
@@ -183,6 +141,16 @@ export default class Choose extends React.Component {
             )
           })
         }
+        <div style={{height: '100px'}}></div>
+        {/* {
+          data1.map(item => {
+            return (
+              <div className="well" key={item.value}>
+                <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={item} />
+              </div>
+            )
+          })
+        } */}
       </div>
     )
   }
