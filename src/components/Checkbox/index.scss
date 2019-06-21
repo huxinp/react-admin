@@ -1,4 +1,7 @@
 $prefixCls: input__check;
+$checkAll: check__all;
+$childNode: #{$checkAll}-child-node;
+$parentNode: #{$checkAll}-parent-node;
 
 // 多选
 .#{$prefixCls}-checkbox {
@@ -141,8 +144,86 @@ $prefixCls: input__check;
 }
 
 // 全选组
-.#{$prefixCls}-checkbox-all-group {
-  .#{$prefixCls}-checkbox-all-group-inner {
-    padding-left: 20px;
+.#{$checkAll}-group {
+  &-inner {
+    padding-left: 13px;
+    margin-left: 10px;
+    border-left: 1px dotted #ccc;
+  }
+  &-inner-hide {
+    display: none;
+  }
+  
+  .#{$parentNode} {
+    display: flex;
+  }
+  .#{$parentNode}-icon {
+    position: relative;
+    width: 13px;
+    height: 13px;
+    margin: 4px;
+    border: 1px solid #ccc;
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #999;
+      margin-right: -50%;
+    }
+    &::before {
+      width: 10px;
+      height: 2px;
+    }
+    &::after {
+      width: 2px;
+      height: 10px;
+    }
+  }
+  .#{$parentNode}-icon-open::after {
+    display: none;
+  }
+  .#{$childNode} {
+    display: flex;
+    flex-direction: row;
+    margin: 3px 0;
+    .#{$childNode}-icon {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      margin: 1px 1px 0 2px;
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        background-color: #999;
+        margin-right: -50%;
+      }
+      &::before {
+        width: 0;
+        height: 20px;
+        left: 50%;
+        border-left: 1px dotted #eee;
+      }
+      &::after {
+        width: 10px;
+        height: 0;
+        left: 50%;
+        top: 50%;
+        border-bottom: 1px dotted #eee;
+      }
+    }
+    &:last-child {
+      .#{$childNode}-icon {
+        &::before {
+          height: 15px;
+        }
+        &::after {
+          top: 66%;
+        }
+      }
+    }
   }
 }

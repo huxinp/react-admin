@@ -66,21 +66,13 @@ export default class Choose extends React.Component {
   makeSemester = () => {
     const { openIds } = this.state;
     return (
-      <Collapse.Group className="semester">
+      <CheckboxAll onChange={this.changeHandle}>
         {
-          data1.map(it => {
-            const open = openIds.includes(it.id);
-            return (
-              <Collapse
-                className="well"
-                key={it.id}
-                open={open}
-                panel={this.makePanel(it)}
-                content={this.makeSubCollapse(it.children)}
-              />
-          )})
+          data2.map(item => {
+            return <CheckboxAll key={item.value} options={item} />
+          })
         }
-      </Collapse.Group>
+      </CheckboxAll>
     )
   }
   makeSubCollapse = children => { // 这里是最小的折叠
@@ -125,11 +117,16 @@ export default class Choose extends React.Component {
   render () {
     return (
       <div className="choose-wraper">
-        <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data2} />
-        <div style={{height: '100px'}}></div>
+        {/* { this.makeSemester() } */}
+        {/* <div style={{height: '100px'}}></div> */}
+        {/* <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data2} /> */}
+        {/* <div style={{height: '100px'}}></div> */}
         {/* <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data3} /> */}
+          <CheckboxAll onChange={this.changeHandle} options={data1} />
         <div style={{height: '100px'}}></div>
-        <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data1} />
+        <div className="checkboxall">
+          <CheckboxAll onChange={this.changeHandle} options={data1} disableParentNode={true} />
+        </div>
       </div>
     )
   }

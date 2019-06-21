@@ -12,55 +12,12 @@ export default class CheckboxAll extends React.PureComponent {
       checkedDatas: [],
     }
   }
-  /*
-  changeHandle = (e, data) => {
-    const { onChange } = this.props;
-    const { checkedData } = this.state;
-    if (data) {                       // 全选  非末级节点
-      let tempData = [...checkedData];
-      let index;
-      let oldChecked;
-      tempData.forEach((item, i) => {
-        if (item.value === data.value) {
-          oldChecked = item;
-          index = i;
-        }
-      });
-      if (oldChecked) {
-        let newChecked = Object.assign({}, oldChecked, data);
-        tempData.splice(index, 1);
-        tempData.push(newChecked);
-      } else {
-        tempData.push(data);
-      }
-      this.setState({
-        checkedData: tempData,
-      });
-      onChange(e, tempData);
-    } else {                          // 多选  末级节点
-      let tempData = [...checkedData];
-      if (e.checked) {                // 勾选
-        tempData.push({
-          value: e.value,
-          checked: e.checked,
-          indeterminate: false,
-        })
-      } else {                        // 取消勾选
-        let temp = [];
-        tempData.forEach(item => {
-          if (item.value !== e.value) {
-            temp.push(item);
-          }
-        })
-        tempData = temp;
-      }
-      this.setState({
-        checkedData: tempData,
-      });
-      onChange(e, tempData);
-    }
+  componentDidMount() {
+    this.init(this.props);
   }
-  */
+  init = props => {
+    // TODO: 外部可传入选中的数据(默认选中), 可以是 checkedData 的格式,  也可以是 value 的数组  默认打开的列
+  }
   changeHandle = (e, data) => {
     const { onChange, options } = this.props;
     const { isarray } = this.state;
@@ -69,6 +26,7 @@ export default class CheckboxAll extends React.PureComponent {
         checkedDatas: [...data],
       })
     }
+    // TODO: 这里向外导出数据多样化,  除了 checkedDatas 格式外, 还要 选中的 value 组成的 数组  以及包含半选的 value的数组
     onChange(e, data);
   }
 
@@ -80,61 +38,42 @@ export default class CheckboxAll extends React.PureComponent {
   }
 
   render() {
-    const { options, children } = this.props;
+    const { options, children, prefixCls, inputPrefixCls, disableParentNode } = this.props;
     const { isarray, checkedDatas } = this.state;
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode };
+    console.log('defaultProps', defaultProps)
     if (isarray) {
       if (children) { // 手动出入子组件
+        console.log('index children')
         return (
-          <CheckAll.Group onChange={this.changeHandle}>
+          <CheckAll.Group onChange={this.changeHandle} {...defaultProps}>
             { children }
           </CheckAll.Group>
         )
       } else {        // options 为数组
+        console.log('index renderChildren');
         return (
-          <CheckAll.Group onChange={this.changeHandle} checkedDatas={checkedDatas}>
+          <CheckAll.Group onChange={this.changeHandle} checkedDatas={checkedDatas} {...defaultProps}>
             { this.renderChildren() }
           </CheckAll.Group>
         )
       }
     } else {          // options 为对象
-      return <CheckAll options={options} onChange={this.changeHandle} />
+      return <CheckAll options={options} onChange={this.changeHandle} {...defaultProps} />
     }
   }
 };
 
-
-var options;
-options = PropTypes.shape({
-  label: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  children: PropTypes.arrayOf(options)
-});
 CheckboxAll.defaultProps = {
-  prefixCls: 'input__check',
+  prefixCls: 'check__all',
+  inputPrefixCls: 'input__check',
+  disableParentNode: false,
   onChange: loop,
 }
-
-var checkedData = PropTypes.shape({
-  value: PropTypes.string,
-  checked: PropTypes.bool,
-  indeterminate: PropTypes.bool,
-  children: PropTypes.arrayOf(checkedData)
-})
-var eventParam = PropTypes.shape({
-  checked: PropTypes.bool,
-  value: PropTypes.any,
-  type: PropTypes.oneOf(['checkbox', 'checkall']),
-  target: PropTypes.object,
-  nativeEvent: PropTypes.object,
-  stopPropagation: PropTypes.func,
-  preventDefault: PropTypes.func,
-})
-var dataParam = PropTypes.shape({
-  checkedData,
-})
 CheckboxAll.propTypes = {
   prefixCls: PropTypes.string,
-  className: PropTypes.string,
+  inputPrefixCls: PropTypes.string,
+  disableParentNode: PropTypes.bool,   // 父节点不能点击,   只能点击末级节点
   onChange: PropTypes.func,
   // options: PropTypes.oneOfType([options, PropTypes.arrayOf(options)])
 }

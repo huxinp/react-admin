@@ -4,23 +4,24 @@ import classanmes from 'classnames';
 import Checkbox from '../Checkbox';
 import { loop, checkedAllFn } from '../utils';
 
-var checkedData;
-checkedData = PropTypes.shape({
-  value: PropTypes.string,
-  checked: PropTypes.bool,
-  indeterminate: PropTypes.bool,
-  children: PropTypes.arrayOf(checkedData)
-})
-var eventParam = PropTypes.shape({
-  checked: PropTypes.bool,
-  value: PropTypes.any,
-  type: PropTypes.oneOf(['checkbox', 'checkall']),
-  target: PropTypes.object,
-  nativeEvent: PropTypes.object,
-  stopPropagation: PropTypes.func,
-  preventDefault: PropTypes.func,
-})
-
+function ChildNode (props) {
+  const { prefixCls, inputPrefixCls, key, ...otherProps } = props;
+  return (
+    <div className={`${prefixCls}-child-node`}>
+      <div className={`${prefixCls}-child-node-icon`}></div>
+      <Checkbox {...otherProps} prefixCls={inputPrefixCls} />
+    </div>
+  )
+}
+function ParentNode (props) {
+  const { prefixCls, inputPrefixCls, key, openChildHandle, disableParentNode, openState, ...otherProps } = props;
+  return (
+    <div className={`${prefixCls}-parent-node`}>
+      <div className={`${prefixCls}-parent-node-icon ${openState ? `${prefixCls}-parent-node-icon-open` : ''}`} onClick={openChildHandle}></div>
+      <Checkbox {...otherProps} prefixCls={inputPrefixCls} disabled={disableParentNode} />
+    </div>
+  )
+}
 class Group extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -99,11 +100,21 @@ class Group extends React.PureComponent {
     }
   }
   renderChildren = () => {
+    const { prefixCls, inputPrefixCls, disableParentNode } = this.props;
     const { checkedData } = this.state;
     return React.Children.map(this.props.children, child => {
       const state = checkedData.find(item => item.value === (child.props.value || child.props.options.value)) || {};
       const { checked = false, indeterminate = false, children = [] } = state;
-      return React.cloneElement(child, { checked, indeterminate, checkedDatas: children, onChange: this.changeHandle });
+      // console.log('group', 'renderChildren', child, state)
+      return React.cloneElement(child, {
+        checked,
+        indeterminate,
+        checkedDatas: children,
+        onChange: this.changeHandle,
+        prefixCls,
+        inputPrefixCls,
+        disableParentNode
+      });
     })
   }
 
@@ -124,6 +135,7 @@ export default class CheckAll extends React.PureComponent {
             { value: 'aa', checked: true },
           ]
         },
+        openChild: true,          // 是否展开子节点
       */
       childValues: [],
       checkedData: {
@@ -131,6 +143,7 @@ export default class CheckAll extends React.PureComponent {
         indeterminate: false,
         children: [],
       },
+      openChild: false, 
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -150,10 +163,16 @@ export default class CheckAll extends React.PureComponent {
     if ('checkedDatas' in props) {
       checkedData.children = props.checkedDatas || [];
     }
+    // console.log('all', 'init', checkedData, props.options.value);
     this.setState({
       childValues: props.options.children.map(item => item.value),
       checkedData,
     });
+  }
+  openChildHandle = () => {
+    this.setState({
+      openChild: !this.state.openChild,
+    })
   }
   changeHandle = (e, data) => {
     const { onChange, options } = this.props;
@@ -193,29 +212,44 @@ export default class CheckAll extends React.PureComponent {
     }
   }
   render() {
-    const { options, prefixCls, className } = this.props;
+    const { options, prefixCls, inputPrefixCls, disableParentNode } = this.props;
+    console.log('prefixCls', prefixCls)
     const {
       checkedData: {
         checked,
         indeterminate,
         children,
       },
+      openChild,
     } = this.state;
-    const stringClassnameGroup = classanmes(className, `${prefixCls}-checkbox-all-group`)
-    const stringClassnameGroupInner = classanmes(`${prefixCls}-checkbox-all-group-inner`, {
-      [`${className}-inner`]: className,
+    const stringClassnameGroup = classanmes(`${prefixCls}-group`)
+    const stringClassnameGroupInner = classanmes({
+      [`${prefixCls}-group-inner`]: true,
+      [`${prefixCls}-group-inner-hide`]: !openChild,
     });
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode };
     return (
       <div className={stringClassnameGroup}>
-        <Checkbox onChange={this.changeHandle} checked={checked} prefixCls={prefixCls} indeterminate={indeterminate} value={options.value}>{options.label}</Checkbox>
+        <ParentNode
+          openChildHandle={this.openChildHandle}
+          onChange={this.changeHandle}
+          openState={openChild}
+          prefixCls={prefixCls}
+          checked={checked}
+          indeterminate={indeterminate}
+          value={options.value}
+          {...defaultProps}
+        >
+          { options.label }
+        </ParentNode>
         <div className={stringClassnameGroupInner}>
-          <Group onChange={this.changeHandle} checkedDatas={children}>
+          <Group onChange={this.changeHandle} checkedDatas={children} {...defaultProps}>
             {
               options.children.map(item => {
                 if (item.children) {
-                  return <CheckAll key={item.value} options={item} value={item.value} className={className} prefixCls={prefixCls} />
+                  return <CheckAll key={item.value} options={item} value={item.value} />
                 } else {
-                  return <Checkbox key={item.value} prefixCls={prefixCls} value={item.value}>{item.label}</Checkbox>
+                  return <ChildNode key={item.value} value={item.value}>{item.label}</ChildNode>
                 }
               })
             }
@@ -226,24 +260,14 @@ export default class CheckAll extends React.PureComponent {
   }
 }
 CheckAll.Group = Group;
-var options;
-options = PropTypes.shape({
-  label: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  children: PropTypes.arrayOf(options)
-});
-CheckAll.defaultProps = {
-  prefixCls: 'input__check',
-  className: '',
-  onChange: loop,
-}
 
 CheckAll.propTypes = {
   prefixCls: PropTypes.string,
-  className: PropTypes.string,
+  inputPrefixCls: PropTypes.string,
   onChange: PropTypes.func,
   checked: PropTypes.bool,
   indeterminate: PropTypes.bool,
+  disableParentNode: PropTypes.bool,   // 非末级节点不能点击
   // checkedDatas
   // options: PropTypes.oneOfType([options, PropTypes.arrayOf(options)])
 }
