@@ -6,7 +6,7 @@ import Collapse from '../../components/Collapse';
 
 import './index.scss';
 
-import { data1, data2 } from './data';
+import { data1, data2, data3 } from './data';
 data1.map(item => {
   item.label = item.name;
   item.value = item.id;
@@ -120,37 +120,16 @@ export default class Choose extends React.Component {
     )
   }
   changeHandle = (e, data) => {
-    console.log('choose', data.checkedData)
+    console.log('choose', data)
   }
   render () {
     return (
       <div className="choose-wraper">
-        {/* { this.makeSemester() }
-        <div className="one">
-          <Checkbox onChange={this.changeHandle} indeterminate={true} readOnly={true}>123</Checkbox>
-        </div>
-        <Radio className='radio' onChange={this.changeHandle} disabled={true} checked={true}>456</Radio>
-        { this.makeCheckboxGroup() }
-        <CheckboxAll name="all" label="All" onChange={this.changeHandle} options={data} /> */}
-        {
-          data2.map(item => {
-            return (
-              <div className="well" key={item.value}>
-                <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={item} />
-              </div>
-            )
-          })
-        }
+        <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data2} />
         <div style={{height: '100px'}}></div>
-        {/* {
-          data1.map(item => {
-            return (
-              <div className="well" key={item.value}>
-                <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={item} />
-              </div>
-            )
-          })
-        } */}
+        {/* <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data3} /> */}
+        <div style={{height: '100px'}}></div>
+        <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data1} />
       </div>
     )
   }

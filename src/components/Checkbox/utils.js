@@ -44,3 +44,18 @@ export function parseArr2Obj (arr) {
   })
   return obj;
 }
+
+export function checkedAllFn (options, state = true) {
+  const obj = {
+    checked: state,
+    indeterminate: false,
+    value: options.value,
+  };
+  const data = {...obj, children: []};
+  if (options.children && state) {
+    options.children.forEach(item => {
+      data.children.push(checkedAllFn(item));
+    });
+  }
+  return data;
+}

@@ -2497,3 +2497,37 @@ export const data2 = [
 		]
 	}
 ]
+export const data3 = {
+	label: 'a',
+	value: 'a',
+	children: [
+		{
+			label: 'aa',
+			value: 'aa',
+			children: [
+				{
+					label: 'aaa',
+					value: 'aaa',
+				},
+				{
+					label: 'aab',
+					value: 'aab',
+				}
+			]
+		},
+		{
+			label: 'ab',
+			value: 'ab',
+			children: [
+				{
+					label: 'aba',
+					value: 'aba',
+				},
+				{
+					label: 'abb',
+					value: 'abb',
+				}
+			]
+		},
+	]
+};
