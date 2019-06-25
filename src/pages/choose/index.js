@@ -122,9 +122,11 @@ export default class Choose extends React.Component {
         {/* <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data2} /> */}
         {/* <div style={{height: '100px'}}></div> */}
         {/* <CheckboxAll className="check-all-group" onChange={this.changeHandle} options={data3} /> */}
+          {/* <CheckboxAll onChange={this.changeHandle} options={data1} translateValue={'id'} translateLabel={'name'} /> */}
           <CheckboxAll onChange={this.changeHandle} options={data1} />
         <div style={{height: '100px'}}></div>
         <div className="checkboxall">
+          {/* <CheckboxAll onChange={this.changeHandle} options={data1} disableParentNode={true} openValues={[30862, 30861, 172]} translateValue={'id'} translateLabel={'name'} /> */}
           <CheckboxAll onChange={this.changeHandle} options={data1} disableParentNode={true} openValues={[30862, 30861, 172]} />
         </div>
       </div>

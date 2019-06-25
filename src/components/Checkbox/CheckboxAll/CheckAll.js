@@ -40,7 +40,7 @@ class Group extends React.PureComponent {
     if ('children' in props) {
       let values = [];
       React.Children.map(props.children, child => {
-        values.push(child.props.value)
+        values.push(child.props[props.translateValue])
       });
       this.setState({ childValues: values });
     }
@@ -53,14 +53,14 @@ class Group extends React.PureComponent {
     }
   }
   changeHandle = (e, data) => {
-    const { onChange } = this.props;
+    const { onChange, translateValue } = this.props;
     const { checkedData } = this.state;
     if (data) {                       // 全选  非末级节点
       let tempData = [...checkedData];
       let index;
       let oldChecked;
       tempData.forEach((item, i) => {
-        if (item.value === data.value) {
+        if (item[translateValue] === data[translateValue]) {
           oldChecked = item;
           index = i;
         }
@@ -80,14 +80,14 @@ class Group extends React.PureComponent {
       let tempData = [...checkedData];
       if (e.checked) {                // 勾选
         tempData.push({
-          value: e.value,
+          [translateValue]: e.value,
           checked: e.checked,
           indeterminate: false,
         })
       } else {                        // 取消勾选
         let temp = [];
         tempData.forEach(item => {
-          if (item.value !== e.value) {
+          if (item[translateValue] !== e.value) {
             temp.push(item);
           }
         })
@@ -100,13 +100,12 @@ class Group extends React.PureComponent {
     }
   }
   renderChildren = () => {
-    const { prefixCls, inputPrefixCls, disableParentNode, openValues } = this.props;
+    const { prefixCls, inputPrefixCls, disableParentNode, openValues, translateValue, translateLabel } = this.props;
     const { checkedData } = this.state;
-    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues };
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues, translateValue, translateLabel };
     return React.Children.map(this.props.children, child => {
-      const state = checkedData.find(item => item.value === (child.props.value || child.props.options.value)) || {};
+      const state = checkedData.find(item => item[translateValue] === (child.props.value || child.props.options[translateValue])) || {};
       const { checked = false, indeterminate = false, children = [] } = state;
-      // console.log('group', 'renderChildren', child, state)
       return React.cloneElement(child, {
         checked,
         indeterminate,
@@ -149,11 +148,11 @@ export default class CheckAll extends React.PureComponent {
     this.init(nextProps);
   }
   componentDidMount () {
-    const { openValues, options } = this.props;
+    const { openValues, options, translateValue } = this.props;
     this.init(this.props);
     if (openValues) {
       this.setState({
-        openChild: openValues.includes(options.value)
+        openChild: openValues.includes(options[translateValue])
       })
     }
   }
@@ -168,9 +167,8 @@ export default class CheckAll extends React.PureComponent {
     if ('checkedDatas' in props) {
       checkedData.children = props.checkedDatas || [];
     }
-    // console.log('all', 'init', checkedData, props.options.value);
     this.setState({
-      childValues: props.options.children.map(item => item.value),
+      childValues: props.options.children.map(item => item[props.translateValue]),
       checkedData,
     });
   }
@@ -180,17 +178,17 @@ export default class CheckAll extends React.PureComponent {
     })
   }
   changeHandle = (e, data) => {
-    const { onChange, options } = this.props;
+    const { onChange, options, translateValue } = this.props;
     const { childValues } = this.state;
     if (data) {    // 子组件传递上来的
       const checkedChild = []; // 勾选的子组件
       const indeterChild = []; // 半选的子组件
       data.forEach(item => {
         if (item.checked) {
-          checkedChild.push(item.value);
+          checkedChild.push(item[translateValue]);
         }
         if (item.indeterminate) {
-          indeterChild.push(item.value);
+          indeterChild.push(item[translateValue]);
         }
       })
       const checked = checkedChild.length === childValues.length;
@@ -199,7 +197,7 @@ export default class CheckAll extends React.PureComponent {
           checkedChild.length !== childValues.length  // 但不是全部都选中了
         ) || (!!indeterChild.length);                 // 或者有子组件是半选的
       const tempData = {
-        value: options.value,
+        [translateValue]: options[translateValue],
         checked,
         indeterminate,
         children: [...data],
@@ -209,7 +207,7 @@ export default class CheckAll extends React.PureComponent {
       })
       onChange(e, tempData)
     } else {       // 父节点直接点击
-      const tempData = checkedAllFn(options, e.checked);
+      const tempData = checkedAllFn(options, translateValue, e.checked);
       this.setState({
         checkedData: tempData,
       })
@@ -217,7 +215,7 @@ export default class CheckAll extends React.PureComponent {
     }
   }
   render() {
-    const { options, prefixCls, inputPrefixCls, disableParentNode, openValues } = this.props;
+    const { options, prefixCls, inputPrefixCls, disableParentNode, openValues, translateValue, translateLabel } = this.props;
     const {
       checkedData: {
         checked,
@@ -231,7 +229,7 @@ export default class CheckAll extends React.PureComponent {
       [`${prefixCls}-group-inner`]: true,
       [`${prefixCls}-group-inner-hide`]: !openChild,
     });
-    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues };
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues, translateValue, translateLabel };
     return (
       <div className={stringClassnameGroup}>
         <ParentNode
@@ -241,19 +239,19 @@ export default class CheckAll extends React.PureComponent {
           prefixCls={prefixCls}
           checked={checked}
           indeterminate={indeterminate}
-          value={options.value}
+          value={options[translateValue]}
           {...defaultProps}
         >
-          { options.label }
+          { options[translateLabel] }
         </ParentNode>
         <div className={stringClassnameGroupInner}>
           <Group onChange={this.changeHandle} checkedDatas={children} {...defaultProps}>
             {
               options.children.map(item => {
                 if (item.children) {
-                  return <CheckAll key={item.value} options={item} value={item.value} />
+                  return <CheckAll key={item[translateValue]} options={item} value={item[translateValue]} />
                 } else {
-                  return <ChildNode key={item.value} value={item.value}>{item.label}</ChildNode>
+                  return <ChildNode key={item[translateValue]} value={item[translateValue]}>{item[translateLabel]}</ChildNode>
                 }
               })
             }
@@ -272,6 +270,8 @@ CheckAll.propTypes = {
   checked: PropTypes.bool,
   indeterminate: PropTypes.bool,
   disableParentNode: PropTypes.bool,   // 非末级节点不能点击
+  translateValue: PropTypes.string,
+  translateLabel: PropTypes.string,
   // checkedDatas
   // options: PropTypes.oneOfType([options, PropTypes.arrayOf(options)])
 }

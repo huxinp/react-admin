@@ -45,32 +45,32 @@ export function parseArr2Obj (arr) {
   return obj;
 }
 
-export function checkedAllFn (options, state = true) {
+export function checkedAllFn (options, key, state = true) {
   const obj = {
     checked: state,
     indeterminate: false,
-    value: options.value,
+    [key]: options[key],
   };
   const data = {...obj, children: []};
   if (options.children && state) {
     options.children.forEach(item => {
-      data.children.push(checkedAllFn(item));
+      data.children.push(checkedAllFn(item, key));
     });
   }
   return data;
 }
-export function parseObj2Array (data, arr1, arr2) {
+export function parseObj2Array (data, key, arr1, arr2) {
   if (Object.prototype.toString.call(data) === '[object Array]') {
-    data.forEach(item => parseObj2Array(item, arr1, arr2));
+    data.forEach(item => parseObj2Array(item, key, arr1, arr2));
   } else {
     if (data.checked) { // 勾选
-      arr1.push(data.value);
-      arr2.push(data.value);
+      arr1.push(data[key]);
+      arr2.push(data[key]);
     } else if (data.indeterminate) { // 半选
-      arr2.push(data.value);
+      arr2.push(data[key]);
     } // else 未选
     if (data.children && data.children.length) {
-      parseObj2Array(data.children, arr1, arr2);
+      parseObj2Array(data.children, key, arr1, arr2);
     }
   }
   return [arr1, arr2];
