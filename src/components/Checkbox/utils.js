@@ -59,3 +59,19 @@ export function checkedAllFn (options, state = true) {
   }
   return data;
 }
+export function parseObj2Array (data, arr1, arr2) {
+  if (Object.prototype.toString.call(data) === '[object Array]') {
+    data.forEach(item => parseObj2Array(item, arr1, arr2));
+  } else {
+    if (data.checked) { // 勾选
+      arr1.push(data.value);
+      arr2.push(data.value);
+    } else if (data.indeterminate) { // 半选
+      arr2.push(data.value);
+    } // else 未选
+    if (data.children && data.children.length) {
+      parseObj2Array(data.children, arr1, arr2);
+    }
+  }
+  return [arr1, arr2];
+}

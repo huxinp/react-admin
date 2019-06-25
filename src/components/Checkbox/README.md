@@ -1,4 +1,4 @@
-# 单选, 多选组件
+# 单选, 多选, 单选组, 多选组, 全选组
 
 > index.js
 导出 单选, 多选, 单选组, 多选组 组件
@@ -97,3 +97,4 @@ onChange 接收一个数组
 
 > Radio.Group   
 实际上就是  `<Group type="radio" {...props} />`
+

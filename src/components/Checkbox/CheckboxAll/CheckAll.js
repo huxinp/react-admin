@@ -100,8 +100,9 @@ class Group extends React.PureComponent {
     }
   }
   renderChildren = () => {
-    const { prefixCls, inputPrefixCls, disableParentNode } = this.props;
+    const { prefixCls, inputPrefixCls, disableParentNode, openValues } = this.props;
     const { checkedData } = this.state;
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues };
     return React.Children.map(this.props.children, child => {
       const state = checkedData.find(item => item.value === (child.props.value || child.props.options.value)) || {};
       const { checked = false, indeterminate = false, children = [] } = state;
@@ -111,9 +112,7 @@ class Group extends React.PureComponent {
         indeterminate,
         checkedDatas: children,
         onChange: this.changeHandle,
-        prefixCls,
-        inputPrefixCls,
-        disableParentNode
+        ...defaultProps,
       });
     })
   }
@@ -150,7 +149,13 @@ export default class CheckAll extends React.PureComponent {
     this.init(nextProps);
   }
   componentDidMount () {
+    const { openValues, options } = this.props;
     this.init(this.props);
+    if (openValues) {
+      this.setState({
+        openChild: openValues.includes(options.value)
+      })
+    }
   }
   init = props => {
     const checkedData = {}
@@ -212,8 +217,7 @@ export default class CheckAll extends React.PureComponent {
     }
   }
   render() {
-    const { options, prefixCls, inputPrefixCls, disableParentNode } = this.props;
-    console.log('prefixCls', prefixCls)
+    const { options, prefixCls, inputPrefixCls, disableParentNode, openValues } = this.props;
     const {
       checkedData: {
         checked,
@@ -227,7 +231,7 @@ export default class CheckAll extends React.PureComponent {
       [`${prefixCls}-group-inner`]: true,
       [`${prefixCls}-group-inner-hide`]: !openChild,
     });
-    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode };
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues };
     return (
       <div className={stringClassnameGroup}>
         <ParentNode

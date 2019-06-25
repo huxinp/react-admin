@@ -111,8 +111,8 @@ export default class Choose extends React.Component {
       </Checkbox.Group>
     )
   }
-  changeHandle = (e, data) => {
-    console.log('choose', data)
+  changeHandle = (e, data, ...list) => {
+    console.log('choose', data, ...list)
   }
   render () {
     return (
@@ -125,7 +125,7 @@ export default class Choose extends React.Component {
           <CheckboxAll onChange={this.changeHandle} options={data1} />
         <div style={{height: '100px'}}></div>
         <div className="checkboxall">
-          <CheckboxAll onChange={this.changeHandle} options={data1} disableParentNode={true} />
+          <CheckboxAll onChange={this.changeHandle} options={data1} disableParentNode={true} openValues={[30862, 30861, 172]} />
         </div>
       </div>
     )

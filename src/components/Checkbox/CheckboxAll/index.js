@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CheckAll from './CheckAll';
-import { loop } from '../utils';
+import { loop, parseObj2Array } from '../utils';
 
 export default class CheckboxAll extends React.PureComponent {
   constructor(props) {
@@ -13,10 +13,7 @@ export default class CheckboxAll extends React.PureComponent {
     }
   }
   componentDidMount() {
-    this.init(this.props);
-  }
-  init = props => {
-    // TODO: 外部可传入选中的数据(默认选中), 可以是 checkedData 的格式,  也可以是 value 的数组  默认打开的列
+    // this.init(this.props);
   }
   changeHandle = (e, data) => {
     const { onChange, options } = this.props;
@@ -26,8 +23,8 @@ export default class CheckboxAll extends React.PureComponent {
         checkedDatas: [...data],
       })
     }
-    // TODO: 这里向外导出数据多样化,  除了 checkedDatas 格式外, 还要 选中的 value 组成的 数组  以及包含半选的 value的数组
-    onChange(e, data);
+    const list = parseObj2Array(data, [], []);
+    onChange(e, data, ...list);
   }
 
   renderChildren = () => {
@@ -38,10 +35,9 @@ export default class CheckboxAll extends React.PureComponent {
   }
 
   render() {
-    const { options, children, prefixCls, inputPrefixCls, disableParentNode } = this.props;
+    const { options, children, prefixCls, inputPrefixCls, disableParentNode, openValues } = this.props;
     const { isarray, checkedDatas } = this.state;
-    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode };
-    console.log('defaultProps', defaultProps)
+    const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues };
     if (isarray) {
       if (children) { // 手动出入子组件
         console.log('index children')
@@ -75,5 +71,6 @@ CheckboxAll.propTypes = {
   inputPrefixCls: PropTypes.string,
   disableParentNode: PropTypes.bool,   // 父节点不能点击,   只能点击末级节点
   onChange: PropTypes.func,
+  openValues: PropTypes.array,
   // options: PropTypes.oneOfType([options, PropTypes.arrayOf(options)])
 }
