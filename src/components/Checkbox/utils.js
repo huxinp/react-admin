@@ -49,9 +49,10 @@ export function checkedAllFn (options, key, state = true) {
   const obj = {
     checked: state,
     indeterminate: false,
-    [key]: options[key],
+    ...options,
+    children: [],
   };
-  const data = {...obj, children: []};
+  const data = {...obj};
   if (options.children && state) {
     options.children.forEach(item => {
       data.children.push(checkedAllFn(item, key));

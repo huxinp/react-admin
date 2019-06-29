@@ -102,6 +102,7 @@ export default class DragSortPage extends React.PureComponent {
   enterHandle = e => {
     e.preventDefault();
     // e.stopPropagation();
+    console.log('enterHandle', e)
     if (!this.dragWrap.contains(e.target)) return;
     if (e.target.className === 'drag-handle') {
       this.setState({ draggable: true })

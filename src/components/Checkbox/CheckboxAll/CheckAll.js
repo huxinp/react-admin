@@ -80,7 +80,7 @@ class Group extends React.PureComponent {
       let tempData = [...checkedData];
       if (e.checked) {                // 勾选
         tempData.push({
-          [translateValue]: e.value,
+          ...e.target.options,
           checked: e.checked,
           indeterminate: false,
         })
@@ -197,7 +197,7 @@ export default class CheckAll extends React.PureComponent {
           checkedChild.length !== childValues.length  // 但不是全部都选中了
         ) || (!!indeterChild.length);                 // 或者有子组件是半选的
       const tempData = {
-        [translateValue]: options[translateValue],
+        ...options,
         checked,
         indeterminate,
         children: [...data],
@@ -230,6 +230,7 @@ export default class CheckAll extends React.PureComponent {
       [`${prefixCls}-group-inner-hide`]: !openChild,
     });
     const defaultProps = { prefixCls, inputPrefixCls, disableParentNode, openValues, translateValue, translateLabel };
+    const nodeProps = {...options, children: undefined};
     return (
       <div className={stringClassnameGroup}>
         <ParentNode
@@ -241,6 +242,7 @@ export default class CheckAll extends React.PureComponent {
           indeterminate={indeterminate}
           value={options[translateValue]}
           {...defaultProps}
+          {...nodeProps}
         >
           { options[translateLabel] }
         </ParentNode>
@@ -251,7 +253,7 @@ export default class CheckAll extends React.PureComponent {
                 if (item.children) {
                   return <CheckAll key={item[translateValue]} options={item} value={item[translateValue]} />
                 } else {
-                  return <ChildNode key={item[translateValue]} value={item[translateValue]}>{item[translateLabel]}</ChildNode>
+                  return <ChildNode key={item[translateValue]} options={item} value={item[translateValue]} disabled={item.disabled}>{item[translateLabel]}</ChildNode>
                 }
               })
             }
