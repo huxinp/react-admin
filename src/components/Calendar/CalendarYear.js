@@ -101,7 +101,7 @@ export default class CalendarYear extends React.PureComponent {
     })
   }
   render () {
-    const { className, Header } = this.props;
+    const { className, Header, Cell } = this.props;
     const years = this.years();
     const middleLabel = this.getPageDecade();
     return (

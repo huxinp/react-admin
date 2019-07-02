@@ -107,7 +107,7 @@ export default class CalendarMonth extends React.PureComponent {
     })
   }
   render () {
-    const { className, pageDate, translation, Cell, } = this.props;
+    const { className, pageDate, translation, Cell, Header } = this.props;
     const middleLabel = formatDate(pageDate, translation.formatForMonthHeader || 'YYYY年');
     const months = this.months();
     return (

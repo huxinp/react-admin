@@ -13,7 +13,7 @@ export default class DatePickerPage extends React.PureComponent {
   render() {
     return (
       <div className="date-picker-containers">
-        <DatePicker value={new Date()} openDate={new Date()} mondayFirst={false} />
+        <div><DatePicker value={new Date()} openDate={new Date()} mondayFirst={false} typeable={true} /></div>
         <Calendar.Day
           translation={{
             days: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],

@@ -19,6 +19,14 @@ export default class DatePicker extends React.PureComponent {
       resetTypedDate: new Date(),
       selectedDate: null,
     }
+    this.datePickerWrap = null;
+  }
+  componentDidMount() {
+    document.addEventListener('click', this.clickOutside);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('click', this.clickOutside);
+    this.datePickerWrap = null;
   }
   clearDate = () => {
     console.log('clearDate')
@@ -35,12 +43,15 @@ export default class DatePicker extends React.PureComponent {
     this.setInitialView()
   }
   // 关闭 calendar
-  close = () => {
+  close = state => {
     this.setState({
       showDayView: false,
       showMonthView: false,
       showYearView: false,
-    })
+    });
+    if (state) {
+      this.props.onClosed();
+    }
   }
   // calendar 是否打开状态
   isOpen = () => {
@@ -158,7 +169,7 @@ export default class DatePicker extends React.PureComponent {
     return !!this.props.inline
   }
   makeCalendar = () => {
-    const { mondayFirst } = this.props;
+    const { mondayFirst, Cell, HeaderCell, Header } = this.props;
     const { showDayView, showMonthView, showYearView, pageTimestamp, selectedDate, Tip } = this.state;
     switch (true) {
       case showDayView:
@@ -170,6 +181,7 @@ export default class DatePicker extends React.PureComponent {
               mondayFirst={mondayFirst}
               Cell={Cell}
               HeaderCell={HeaderCell}
+              Header={Header}
               changeMonth={this.changeMonth}
               selectDate={this.selectDate}
               selectedDisabled={this.selectedDisabled}
@@ -202,11 +214,16 @@ export default class DatePicker extends React.PureComponent {
       default:
     }
   }
+  clickOutside = (e) => {
+    if (!this.datePickerWrap.contains(e.target)) {
+      this.close(true);
+    }
+  }
   render() {
-    const { disabled } = this.props;
+    const { disabled, typeable } = this.props;
     const { selectedDate } = this.state;
     return (
-      <div className="date-picker">
+      <div className="date-picker" ref={el => this.datePickerWrap = el}>
         <DateInput
           clearDate={this.clearDate}
           showCalendar={this.showCalendar}
@@ -214,6 +231,7 @@ export default class DatePicker extends React.PureComponent {
           typedDate={this.typedDate}
           selectedDate={selectedDate}
           showMonthCalendar={this.showMonthCalendar}
+          typeable={typeable}
         />
         { !disabled && this.makeCalendar() }
       </div>
@@ -233,6 +251,7 @@ DatePicker.defaultProps = {
   value: new Date(),
   mondayFirst: true,
   inline: false,
+  typeable: true,
   // func handle
   onChangeMonth: loop,
   onChangeYear: loop,
@@ -241,6 +260,7 @@ DatePicker.defaultProps = {
   onSelectedDisabled: loop,
   onSelected: loop,
   onInput: loop,
+  onClosed: loop,
 }
 DatePicker.propTypes = {
   // props attribute
@@ -301,4 +321,5 @@ DatePicker.propTypes = {
   onSelectedDisabled: PropTypes.func,
   onSelected: PropTypes.func,
   onInput: PropTypes.func,
+  onClosed: PropTypes.func,
 }
