@@ -134,7 +134,7 @@ export default class DateInput extends React.PureComponent {
         />
         {/* Clear Button */}
         {
-          clearButton && selectedDate (
+          clearButton && selectedDate && (
             <span className={classnames('vdp-datepicker__clear-button', {'input-group-append': bootstrapStyling})} onClick={clearDate}>
               <span className={classnames({'input-group-text': bootstrapStyling})}>
                 <i className="clearButtonIcon">

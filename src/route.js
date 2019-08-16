@@ -5,6 +5,8 @@ import DatePickerPage from './pages/date-picker';
 import WebrtcStreamPage from './pages/webrtc-stream';
 import Choose from './pages/choose';
 import DragSortPage from './pages/dragsort';
+import RcDatePickerPage from './pages/rc-date-picker';
+import ReactComponents from './pages/react-component';
 
 export default function createRoutes () {
   return [
@@ -27,6 +29,16 @@ export default function createRoutes () {
       path: '/dragsort',
       name: 'dragsort',
       component: DragSortPage,
+    },
+    {
+      path: '/rc-date-picker',
+      name: 'rc-date-picker',
+      component: RcDatePickerPage,
+    },
+    {
+      path: '/react-components',
+      name: 'react-components',
+      component: ReactComponents,
     }
   ]
 }
