@@ -561,3 +561,5 @@ Trigger.defaultProps = {
   showAction: [],
   hideAction: []
 };
+
+export default Trigger;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
+// import { Router, Route, browserHistory  } from 'react-router'
 import { createBrowserHistory } from "history";
 import createRoutes from './route';
 import './App.css';
@@ -16,11 +17,16 @@ function RouteWithSubRoutes(route) {
 }
 
 const routes = createRoutes();
+const rootRoute = {
+  component: App,
+  childRoutes: createRoutes(),
+};
 
 function App() {
   return (
     <Router
       history={history}
+      // routes={rootRoute}
     >
       {
         routes.map((route, i) => {

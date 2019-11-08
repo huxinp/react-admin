@@ -244,3 +244,5 @@ Popup.propTypes = {
 }
 
 // _initialiseProps
+
+export default Popup;
