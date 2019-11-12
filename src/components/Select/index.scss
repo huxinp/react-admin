@@ -1,0 +1,211 @@
+$prefixCls: select;
+
+.#{$prefixCls}-input {
+  position: relative;
+  display: flex;
+  border-radius: 3px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    top: 0;
+    border: none;
+    outline: none;
+    opacity: 0;
+    z-index: -1;
+  }
+  div {
+    flex: auto;
+    padding: 5px 8px 5px 8px;
+  }
+  span.arrow {
+    flex: none;
+    width: 20px;
+    &.fire::after {
+      top: 12px;
+    }
+    &::after {
+      top: 10px;
+      left: 4px;
+    }
+  }
+}
+
+.#{$prefixCls}-panel {
+  width: 700px;
+  padding: 5px;
+  border: 1px solid #eee;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.20);
+  z-index: 1;
+  .#{$prefixCls}-row-selector {
+    display: flex;
+    font-size: 14px;
+    &.collapsed {
+      height: 34px;
+      line-height: 34px;
+    }
+    .#{$prefixCls}-collapse-btn {
+      flex: none;
+      height: 34px;
+      line-height: 34px;
+      padding: 0 15px 0 10px;
+      color: #666;
+      cursor: pointer;
+      user-select: none;
+      &:hover {
+        color: #EF4C4F;
+        &::after {
+          border-color: #EF4C4F;
+        }
+      }
+      &::after {
+        right: 4px;
+      }
+    }
+    .#{$prefixCls}-row-collapse {
+      flex: auto;
+      padding: 0 5px;
+      min-width: 0;
+      span:first-child { margin-right: 10px; }
+    }
+    .#{$prefixCls}-row-uncollapse {
+      flex: auto;
+      padding: 5px;
+      min-width: 0;
+      display: flex;
+      .#{$prefixCls}-row-labels {
+        flex: none;
+        min-width: 50px;
+        text-align: right;
+        &>div {
+          padding: 7px;
+        }
+      }
+      .#{$prefixCls}-row-options {
+        flex: auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        &>div {
+          padding: 7px 0;
+        }
+      }
+    }
+  }
+  .#{$prefixCls}-col-selector {
+    display: flex;
+    height: 324px;
+    font-size: 16px;
+    min-width: 0;
+    overflow-y: auto;
+    &.only-col {
+      padding-top: 15px;
+    }
+    &>div {
+      flex: 1;
+      margin: 5px;
+      min-width: 160px;
+      border: 1px solid #eee;
+      line-height: 26px;
+      border-radius: 2px;
+      overflow-y: auto;
+      &>div {
+        padding: 7px;
+        line-height: 26px;
+        padding-left: 10px;
+        cursor: pointer;
+        user-select: none;
+        &.selected {
+          background-color: #F2F4F6;
+        }
+      }
+    }
+  }
+  .#{$prefixCls}-line-scroll-selector {
+    display: flex;
+    height: 100%;
+    align-items: stretch;
+    min-width: 0;
+    .#{$prefixCls}-line-scroll-container {
+      flex: auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .#{$prefixCls}-line-scroll-inner {
+      position: absolute;
+      display: flex;
+      span {
+        padding: 0 10px;
+        min-width: 60px;
+        text-align: center;
+        border-radius: 2px;
+        user-select: none;
+        white-space: nowrap;
+        cursor: pointer;
+        &.selected {
+          color: #EF4C4F;
+          background: #FFEAE9;
+        }
+      }
+    }
+    .#{$prefixCls}-line-handle {
+      flex: none;
+      position: relative;
+      width: 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      &:hover::before {
+        border-color: #EF4C4F;
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        width: 10px;
+        height: 10px;
+        border: 1px solid rgb(102,102,102);
+        border-width: 0 0 1px 1px;
+      }
+      &.prev-handle::before {
+        left: 8px;
+        transform: rotate(45deg);
+      }
+      &.next-handle::before {
+        left: 3px;
+        border-width: 1px 1px 0 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+  .ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.#{$prefixCls}-input, .#{$prefixCls}-panel {
+  .arrow {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      transform: rotate(45deg);
+      top: 12px;
+      border-right: 2px solid #999;
+      border-bottom: 2px solid #999;
+      transition: all 0.15s ease;
+    }
+    &.fire::after {
+      transform: rotate(-135deg);
+      top: 15px;
+    }
+  }
+}

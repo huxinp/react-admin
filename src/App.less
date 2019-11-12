@@ -1,11 +1,18 @@
 .app-wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  height: 100%;
   .app-header {
     flex: none;
     width: 100%;
     height: 50px;
     line-height: 50px;
+  }
+  .app-body {
+    flex: auto;
+    display: flex;
+    overflow-y: auto;
+    min-height: 0;
   }
   .app-side {
     flex: none;
@@ -14,5 +21,9 @@
   }
   .app-content {
     flex: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 0;
   }
 }

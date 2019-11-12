@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 import createRoutes from './routes';
-import Home from './pages/home';
+import Home from './views/home';
 import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';

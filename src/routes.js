@@ -10,10 +10,34 @@ function createRoutesLog(path, err) {
 export default function createRoutes () {
   return [
     {
+      path: '/login',
+      name: 'login',
+      getComponent(nextState, cb) {
+        import('./views/login').then(loadModule(cb))
+          .catch(err => createRoutesLog(this.path, err))
+      }
+    },
+    {
+      path: '/todo',
+      name: 'todo',
+      getComponent(nextState, cb) {
+        import('./views/todo').then(loadModule(cb))
+          .catch(err => createRoutesLog(this.path, err))
+      }
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      getComponent(nextState, cb) {
+        import('./views/setting').then(loadModule(cb))
+          .catch(err => createRoutesLog(this.path, err))
+      }
+    },
+    {
       path: '/antDesign',
       name: 'antDesign',
       getComponent(nextState, cb) {
-        import('./pages/antDesign').then(loadModule(cb))
+        import('./views/antDesign').then(loadModule(cb))
           .catch(err => createRoutesLog(this.path, err))
       }
     },
@@ -21,7 +45,7 @@ export default function createRoutes () {
       path: '/Vchat',
       name: 'Vchat',
       getComponent(nextState, cb) {
-        import('./pages/Vchat').then(loadModule(cb))
+        import('./views/Vchat').then(loadModule(cb))
           .catch(err => createRoutesLog(this.path, err))
       }
     },
@@ -29,7 +53,7 @@ export default function createRoutes () {
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
-        import('./pages/home').then(loadModule(cb))
+        import('./views/home').then(loadModule(cb))
           .catch(err => createRoutesLog(this.path, err))
       }
     },
@@ -37,7 +61,7 @@ export default function createRoutes () {
       path: '*',
       name: 'notFound',
       getComponent(nextState, cb) {
-        import('./pages/home').then(loadModule(cb))
+        import('./views/notFound').then(loadModule(cb))
           .catch(err => createRoutesLog(this.path, err))
       }
     },
