@@ -2,7 +2,9 @@ import React from 'react';
 
 import Canvas from 'vchat-regcode';
 
-import { login } from './actions';
+import { loginAction } from './actions';
+
+import AppStore from './store';
 
 import './index.less';
 
@@ -47,7 +49,7 @@ export default class Login extends React.PureComponent {
   enter = () => {
     const { signForm, showSign } = this.state;
     const { name, pass, regcode, repass } = signForm;
-    login({ name, pass })
+    loginAction({ name, pass })
   }
   choose = flag => {
     this.setState({ isLogin: flag })

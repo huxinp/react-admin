@@ -12,7 +12,7 @@ export {
 }
 
 const request = axios.create({
-  timeout: 5000,
+  timeout: 10000,
   headers: { 'Content-Type': 'application/json' }
 });
 // 请求状态拦截
@@ -33,9 +33,9 @@ request.interceptors.response.use(
 // 未登录拦截
 request.interceptors.response.use(
   response => {
-    if (response.data.status === 0) {
-      browserHistory.push('/');
-    }
+    // if (response.data.status === 0) {
+    //   browserHistory.push('/');
+    // }
     return response;
   },
   error => {

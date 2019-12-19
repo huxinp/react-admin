@@ -1,6 +1,7 @@
 
-import Dispatcher from '../../dispatcher';
-import request, { md5 } from '../../request';
+import Dispatcher from '../dispatcher';
+import request, { md5 } from '../../../request'
+import { browserHistory } from 'react-router';
 import {
   LOGIN,
   LOGIN_LOADING,
@@ -22,6 +23,7 @@ export const login = function(params) {
     if (res.code === 0) {
       getUserInfo();
       Dispatcher.execute(LOGIN_SUCCEED, res)
+      browserHistory.push('/')
     } else {
       Dispatcher.execute(LOGIN_FAILED);
     }
@@ -48,7 +50,7 @@ export const getUserInfo = function() {
 }
 export const getVchatInfo = function() {
   request({
-    methd: 'post',
+    method: 'post',
     url: 'v/user/getVchatInfo',
   }).then(res => {
     if (res.code === 0) {

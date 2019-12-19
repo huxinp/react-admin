@@ -23,14 +23,14 @@ export default class SideBar extends React.PureComponent {
   render() {
     const routes = createRoutes();
     const sideList = routes.slice(0, routes.length - 1);
-    sideList.unshift(sideList.pop());
     return (
       <div className="side-bar">
         {
           sideList.map(item => {
-            const active = item.path === this.state.pathname;
+            const active = item.path.split('/')[1] === this.state.pathname.split('/')[1]
+            console.log('item.path', item.path, this.state.pathname)
             return (
-              <div className={`side-bar-item${active ? ' actived' : ''}`} key={item.path}>
+              <div className={`side-bar-item${active ? ' actived' : ''}`} key={item.name}>
                 <Link to={item.path}>{item.name}</Link>
               </div>
             )

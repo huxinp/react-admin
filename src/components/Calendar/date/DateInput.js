@@ -77,7 +77,7 @@ export default class DateInput extends React.PureComponent {
     }
   }
   saveDateInput = function saveDateInput(dateInput) {
-    console.log('this', this)
+    // console.log('this', this)
     this.dateInputInstance = dateInput;
   }
   render() {
