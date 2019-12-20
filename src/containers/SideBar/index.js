@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Link, browserHistory  } from 'react-router';
 
 import createRoutes from '../../routes';
@@ -28,7 +28,6 @@ export default class SideBar extends React.PureComponent {
         {
           sideList.map(item => {
             const active = item.path.split('/')[1] === this.state.pathname.split('/')[1]
-            console.log('item.path', item.path, this.state.pathname)
             return (
               <div className={`side-bar-item${active ? ' actived' : ''}`} key={item.name}>
                 <Link to={item.path}>{item.name}</Link>
@@ -39,11 +38,4 @@ export default class SideBar extends React.PureComponent {
       </div>
     )
   }
-}
-
-SideBar.defaultProps = {
-
-}
-SideBar.propTypes = {
-
 }

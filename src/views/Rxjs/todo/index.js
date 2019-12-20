@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import Rx from 'rxjs/Rx';
+import { browserHistory  } from 'react-router';
 import TodoStore from './store';
 import TodoActions from './actions';
-import request, { md5 } from '../../../request'
+import request, { md5 } from '@/request'
 
-import Footer from './views/Footer';
-import Header from './views/Header';
-import TodoList from './views/TodoList';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import TodoList from './components/TodoList';
 
 import './index.less';
 
@@ -19,14 +20,15 @@ export default class RxjsTodo extends React.PureComponent {
     super(props)
     this.state = {
       todoStore,
-      tabKey: 'all', // one of ['all', 'active', 'completed' ]
+      routeHash: 'all', // one of ['all', 'active', 'completed' ]
       activeTodoCount: 0,
       completedCount: 0,
       shownTodos: 0,
     }
   }
+
   componentDidMount() {
-/* 
+  /* 
     function subscribe(observer) {
       let i = 0;
       observer.next(i++)
@@ -59,8 +61,8 @@ export default class RxjsTodo extends React.PureComponent {
       complete: () => console.log('done'),
     })
     console.log('just after subscribe')
- */
-/*
+   */
+  /*
     const foo = Rx.Observable.create(function (observer) {
       console.log('Hello');
       observer.next(42);
@@ -71,12 +73,12 @@ export default class RxjsTodo extends React.PureComponent {
     foo.subscribe(function (x) {
       console.log(x)
     })
-*/
-/*
+   */
+  /*
     const theOf = Rx.Observable.of(1,2,3)
     theOf.subscribe(x => console.log('theOf ' + x))
-*/
-/* 
+   */
+  /* 
     // 创建观察对象
     const login = Rx.Observable.create(function subscribe(observer) {
       request({
@@ -102,8 +104,8 @@ export default class RxjsTodo extends React.PureComponent {
       }
     })
     subscription.unsubscribe(); // 取消订阅
- */
-/* 
+   */
+  /* 
     function subscribe(observer) {
       let i = 0;
       const intervalId = setInterval(() => {
@@ -123,8 +125,8 @@ export default class RxjsTodo extends React.PureComponent {
         }
       }
     })
- */
-/* 
+   */
+  /* 
     function multiplyByTen(input) {
       const output = Rx.Observable.create(function subscribe(observer) {
         input.subscribe({
@@ -139,8 +141,8 @@ export default class RxjsTodo extends React.PureComponent {
     const input  = Rx.Observable.from([1,2,3,4]);
     const output = multiplyByTen(input);
     output.subscribe(x => console.log(x))
- */
-/* 
+   */
+  /* 
     Rx.Observable.prototype.multiplyByTen = function multiplyByTen() {
       const input = this;
       return Rx.Observable.create(function subscribe(observer) {
@@ -153,8 +155,8 @@ export default class RxjsTodo extends React.PureComponent {
     }
     var observable = Rx.Observable.from([1,2,3,4]).multiplyByTen();
     observable.subscribe(x => console.log(x));
- */
-/* 
+   */
+  /* 
     const observable1 = Rx.Observable.interval(400);
     const observable2 = Rx.Observable.interval(300);
 
@@ -166,8 +168,8 @@ export default class RxjsTodo extends React.PureComponent {
     setTimeout(() => {
       subscription.unsubscribe();
     }, 1000);
- */
-/* 
+   */
+  /* 
     const observable = Rx.Observable.create(function (observer) {
       observer.next(1);
       observer.next(2);
@@ -183,8 +185,8 @@ export default class RxjsTodo extends React.PureComponent {
       complete: () => console.log('done'),
     })
     console.log('just after subscribe');
- */
-/* 
+   */
+  /* 
     const observable = Rx.Observable.create(function (proxyObserver) {
       proxyObserver.next(1);
       proxyObserver.next(2);
@@ -212,8 +214,8 @@ export default class RxjsTodo extends React.PureComponent {
         )
       }
     }
- */
-/* 
+   */
+  /* 
     const subject = new Rx.Subject();
 
     subject.subscribe({
@@ -225,8 +227,8 @@ export default class RxjsTodo extends React.PureComponent {
 
     subject.next(1);
     subject.next(2);
- */
-/* 
+   */
+  /* 
     const subject = new Rx.Subject();
     
     subject.subscribe({
@@ -239,8 +241,8 @@ export default class RxjsTodo extends React.PureComponent {
     const observable = Rx.Observable.from([1,2,3]);
 
     observable.subscribe(subject);
- */
-/* 
+   */
+  /* 
     const source = Rx.Observable.from([1,2,3]);
     const subject = new Rx.Subject();
     const multicasted = source.multicast(subject);
@@ -253,8 +255,8 @@ export default class RxjsTodo extends React.PureComponent {
     })
 
     multicasted.connect();
- */
-/* 
+   */
+  /* 
     const source = Rx.Observable.interval(500);
     const subject = new Rx.Subject();
     const multicasted = source.multicast(subject);
@@ -280,8 +282,8 @@ export default class RxjsTodo extends React.PureComponent {
       subscription2.unsubscribe();
       subscriptionConnect.unsubscribe();
     }, 2000)
- */
-/* 
+   */
+  /* 
     const source = Rx.Observable.interval(500);
     const subject = new Rx.Subject();
     const refCounted = source.multicast(subject).refCount();
@@ -308,8 +310,8 @@ export default class RxjsTodo extends React.PureComponent {
       console.log('observerB unsubscribed');
       subscription2.unsubscribe();
     }, 2000)
- */
-/* 
+   */
+  /* 
     const subject = new Rx.BehaviorSubject(0)
 
     subject.subscribe({
@@ -324,8 +326,8 @@ export default class RxjsTodo extends React.PureComponent {
     })
 
     subject.next(3)
- */
-/* 
+   */
+  /* 
     const subject = new Rx.ReplaySubject(3);
 
     subject.subscribe({
@@ -342,8 +344,8 @@ export default class RxjsTodo extends React.PureComponent {
     })
 
     subject.next(5)
- */
-/* 
+   */
+  /* 
     const subject = new Rx.ReplaySubject(100, 500);
 
     subject.subscribe({
@@ -358,8 +360,8 @@ export default class RxjsTodo extends React.PureComponent {
         next: v => console.log('observerB: ' + v)
       })
     }, 1000)
- */
-/* 
+   */
+  /* 
     const subject = new Rx.AsyncSubject();
 
     subject.subscribe({
@@ -377,28 +379,44 @@ export default class RxjsTodo extends React.PureComponent {
 
     subject.next(5)
     subject.complete()
-*/
+   */
   }
 
   componentWillMount() {
-    const { todoStore, tabKey } = this.state;
+    const { todoStore } = this.state;
     console.log('todoStore', todoStore)
+    const routeHash = new Rx.BehaviorSubject('');
+    browserHistory.listen(e => {
+      switch (e.hash) {
+        case '#all':
+          routeHash.next('all');
+          break;
+        case '#active':
+          routeHash.next('active');
+          break;
+        case '#completed':
+          routeHash.next('completed');
+          break;
+        default: 
+          console.log(e.hash)
+      }
+    })
     const shownTodos = todoStore.todos
       .combineLatest(
-        tabKey,
-        function (todos, tabKey) {
+        routeHash,
+        function (todos, routeHash) {
           console.log('todos', todos)
           const activeTodoCount = todos.reduce(function (accum, todo) {
             return todo.completed ? accum : accum + 1;
           }, 0)
           const completedCount = todos.length - activeTodoCount;
           const shownTodos = todos.filter(function (todo) {
-            switch (tabKey) {
+            switch (routeHash) {
               case 'active':
                 return !todo.completed;
               case 'completed':
                 return todo.completed;
-              default: 
+              default:
                 return true
             }
           }, this)
@@ -406,7 +424,7 @@ export default class RxjsTodo extends React.PureComponent {
             activeTodoCount,
             completedCount,
             shownTodos,
-            tabKey,
+            routeHash,
           }
         }
       )
@@ -414,7 +432,7 @@ export default class RxjsTodo extends React.PureComponent {
   }
 
   render() {
-    const { activeTodoCount, completedCount, shownTodos, tabKey } = this.state;
+    const { activeTodoCount, completedCount, shownTodos, routeHash } = this.state;
     return (
       <div className="rxjs-todo">
         <Header />
@@ -423,7 +441,7 @@ export default class RxjsTodo extends React.PureComponent {
           )
         }
         { !!(activeTodoCount || completedCount) && (
-            <Footer count={activeTodoCount} completedCount={completedCount} nowShowing={tabKey} />
+            <Footer count={activeTodoCount} completedCount={completedCount} nowShowing={routeHash} />
           )
         }
       </div>

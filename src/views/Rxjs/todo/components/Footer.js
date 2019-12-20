@@ -21,19 +21,21 @@ export default class TodoFooter extends React.PureComponent {
           <strong> { count }</strong> {activeTodoWord} left
         </span>
         <div className="filters">
-          <span>All</span>
-          <span>Active</span>
-          <span>Completed</span>
+          <a href="#all">All</a>
+          <a href="#active">Active</a>
+          <a href="#completed">Completed</a>
         </div>
-        { !!completedCount && (
-            <button
-              className="clear-completed"
-              onClick={this.handlers.clearButtonClick}
-            >
-              Clear completed ({ completedCount })
-            </button>
-          )
-        }
+        <div>
+          { !!completedCount && (
+              <button
+                className="clear-completed"
+                onClick={this.handlers.clearButtonClick}
+              >
+                Clear completed ({ completedCount })
+              </button>
+            )
+          }
+        </div>
       </footer>
     )
   }

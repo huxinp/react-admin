@@ -32,21 +32,23 @@ request.interceptors.response.use(
 )
 // 未登录拦截
 request.interceptors.response.use(
-  response => {
+  response => { // 这里判断是否登录
     // if (response.data.status === 0) {
-    //   browserHistory.push('/');
+    //   browserHistory.push('/Vchat/login');
     // }
     return response;
   },
   error => {
     if (error.response) {
+      console.log('error status', error.response.status)
+      alert('网络错误， 请重试');
       switch (error.response.status) {
         case 401:
           // 这里写清除token的代码
-          browserHistory.push('/');
+          browserHistory.push('/Vchat/login');
           break;
         default:
-          browserHistory.push('/');
+          browserHistory.push('/Vchat/login');
       }
     }
     return Promise.reject(error);

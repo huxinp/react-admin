@@ -16,7 +16,7 @@ function createRoutes (store, basePath) {
       name: 'Rxjs',
       indexRoute: {
         getComponent(nextState, cb) {
-          import('./RxjsTodo').then(loadModule(cb))
+          import('./todo').then(loadModule(cb))
             .catch(err => createRoutesLog(this.path, err))
         }
       },
@@ -26,10 +26,10 @@ function createRoutes (store, basePath) {
       },
       childRoutes: [
         {
-          path: basePath + '/RxjsTodo',
+          path: basePath + '/todo',
           name: 'RxjsTodo',
           getComponent(nextState, cb) {
-            import('./RxjsTodo').then(loadModule(cb))
+            import('./todo').then(loadModule(cb))
               .catch(err => createRoutesLog(this.path, err))
           }
         },
