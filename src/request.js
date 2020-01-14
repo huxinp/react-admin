@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Rx from 'rxjs/Rx';
 import crypto from 'crypto';
 import { browserHistory } from 'react-router'
 
@@ -6,10 +7,6 @@ const md5 = pass => { // 避免多次调用MD5报错
     let md5 = crypto.createHash('md5');
     return md5.update(pass).digest("hex");
 };
-
-export {
-  md5
-}
 
 const request = axios.create({
   timeout: 10000,
@@ -54,4 +51,25 @@ request.interceptors.response.use(
     return Promise.reject(error);
   }
 )
+
+function request$ ({ method, url, params }) {
+  return new Rx.Observable.create(subscribe => {
+    request({
+      method,
+      url,
+      data: params
+    })
+    .then(res => {
+      subscribe.next(res.body);
+      subscribe.complete();
+    })
+    .catch(err => subscribe.error(err))
+  })
+}
+
+export {
+  md5,
+  request$
+}
+
 export default request;

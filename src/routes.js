@@ -23,26 +23,26 @@ export default function createRoutes () {
     {
       path: '/antDesign',
       name: 'AntD',
-      indexRoute: {
-        getComponent(nextState, cb) {
-          import('./views/antDesign/calendar').then(loadModule(cb))
-            .catch(err => createRoutesLog(this.path, err))
-        },
-      },
+      // indexRoute: {
+      //   getComponent(nextState, cb) {
+      //     import('./views/antDesign/calendar').then(loadModule(cb))
+      //       .catch(err => createRoutesLog(this.path, err))
+      //   },
+      // },
       getComponent(nextState, cb) {
         import('./views/antDesign').then(loadModule(cb))
           .catch(err => createRoutesLog(this.path, err))
       },
-      childRoutes: [
-        {
-          path: '/antDesign/calendar',
-          name: 'Calendar',
-          getComponent(nextState, cb) {
-            import('./views/antDesign/calendar').then(loadModule(cb))
-              .catch(err => createRoutesLog(this.path, err))
-          },
-        }
-      ]
+      // childRoutes: [
+      //   {
+      //     path: '/antDesign/calendar',
+      //     name: 'Calendar',
+      //     getComponent(nextState, cb) {
+      //       import('./views/antDesign/calendar').then(loadModule(cb))
+      //         .catch(err => createRoutesLog(this.path, err))
+      //     },
+      //   }
+      // ]
     },
     ...VchatRoutes('/Vchat'),
     ...RxjsRoutes('/Rxjs'),

@@ -384,7 +384,6 @@ export default class RxjsTodo extends React.PureComponent {
 
   componentWillMount() {
     const { todoStore } = this.state;
-    console.log('todoStore', todoStore)
     const routeHash = new Rx.BehaviorSubject('');
     browserHistory.listen(e => {
       switch (e.hash) {
@@ -400,8 +399,8 @@ export default class RxjsTodo extends React.PureComponent {
         default: 
           console.log(e.hash)
       }
-    })
-    const shownTodos = todoStore.todos
+    });
+    todoStore.todos
       .combineLatest(
         routeHash,
         function (todos, routeHash) {

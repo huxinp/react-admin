@@ -25,5 +25,20 @@
     flex-direction: column;
     overflow-y: auto;
     min-height: 0;
+    &>div {
+      flex: auto;
+      display: flex;
+      flex-direction: column;
+      .sub-nav-bar {
+        flex: none;
+        display: flex;
+        // justify-content: flex-end;
+        height: 40px;
+        align-items: center;
+        a {
+          margin: 0 10px;
+        }
+      }
+    }
   }
 }

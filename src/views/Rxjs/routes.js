@@ -33,6 +33,14 @@ function createRoutes (store, basePath) {
               .catch(err => createRoutesLog(this.path, err))
           }
         },
+        {
+          path: basePath + '/snake',
+          name: 'TsSnake',
+          getComponent(nextState, cb) {
+            import('./tsSnake').then(loadModule(cb))
+              .catch(err => createRoutesLog(this.path, err))
+          }
+        }
       ]
     },
   ]

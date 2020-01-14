@@ -1,43 +1,21 @@
 .rxjs-todo {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);
-	margin: 130px 0 40px 0;
 	border: 1px solid #ccc;
 	position: relative;
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
 	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
         0 25px 50px 0 rgba(0, 0, 0, 0.15);
-  &::before {
-    content: '';
-    border-left: 1px solid #f5d6d6;
-    border-right: 1px solid #f5d6d6;
-    width: 2px;
-    position: absolute;
-    top: 0;
-    left: 40px;
-    height: 100%;
+  header, footer {
+    flex: none;
   }
   .todo-header {
-    padding-top: 15px;
     border-radius: inherit;
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      height: 15px;
-      z-index: 2;
-      border-bottom: 1px solid #6c615c;
-      background: #8d7d77;
-      background: -webkit-gradient(linear, left top, left bottom, from(rgba(132, 110, 100, 0.8)),to(rgba(101, 84, 76, 0.8)));
-      background: -webkit-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-      background: linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#9d8b83', EndColorStr='#847670');
-      border-top-left-radius: 1px;
-      border-top-right-radius: 1px;
-    }
   }
   .todo-footer {
     display: flex;
@@ -80,8 +58,9 @@
     color: #a9a9a9;
   }
   h1 {
-    position: absolute;
-    top: -120px;
+    position: relative;
+    margin: 0;
+    padding-bottom: 20px;
     width: 100%;
     font-size: 70px;
     font-weight: bold;
@@ -89,8 +68,30 @@
     color: rgba(255, 255, 255, 0.3);
     text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
     text-rendering: optimizeLegibility;
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 15px;
+      z-index: 2;
+      border-bottom: 1px solid #6c615c;
+      background: #8d7d77;
+      background: -webkit-gradient(linear, left top, left bottom, from(rgba(132, 110, 100, 0.8)),to(rgba(101, 84, 76, 0.8)));
+      background: -webkit-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
+      background: linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#9d8b83', EndColorStr='#847670');
+      border-top-left-radius: 1px;
+      border-top-right-radius: 1px;
+    }
   }
   .todo-main {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
     position: relative;
     z-index: 2;
     border-top: 1px dotted #adadad;
@@ -120,27 +121,32 @@
     
   .todo-footer {
     color: #777;
-    padding: 0 15px;
-    position: absolute;
-    right: 0;
-    bottom: -31px;
-    left: 0;
-    height: 20px;
-    z-index: 1;
+    padding-bottom: 15px;
+    height: 50px;
     text-align: center;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
+          0 6px 0 -3px rgba(255, 255, 255, 0.8),
+          0 7px 1px -3px rgba(0, 0, 0, 0.3),
+          0 43px 0 -6px rgba(255, 255, 255, 0.8),
+          0 44px 2px -6px rgba(0, 0, 0, 0.2);
+    background: #d9d9d9;
     &::before {
       content: '';
       position: absolute;
+      bottom: 0;
       right: 0;
-      bottom: 31px;
       left: 0;
-      height: 50px;
-      z-index: -1;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
-            0 6px 0 -3px rgba(255, 255, 255, 0.8),
-            0 7px 1px -3px rgba(0, 0, 0, 0.3),
-            0 43px 0 -6px rgba(255, 255, 255, 0.8),
-            0 44px 2px -6px rgba(0, 0, 0, 0.2);
+      height: 15px;
+      z-index: 2;
+      border-bottom: 1px solid #6c615c;
+      background: #8d7d77;
+      background: -webkit-gradient(linear, left top, left bottom, from(rgba(132, 110, 100, 0.8)),to(rgba(101, 84, 76, 0.8)));
+      background: -webkit-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
+      background: linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#9d8b83', EndColorStr='#847670');
+      border-top-left-radius: 1px;
+      border-top-right-radius: 1px;
     }
   }
 
@@ -161,9 +167,25 @@
   }
   
   .todo-list {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
     margin: 0;
     padding: 0;
     list-style: none;
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 40px;
+      width: 2px;
+      height: 100%;
+      border: 1px solid #f5d6d6;
+      border-width: 0 1px 0 1px;
+    }
     &>div {
       position: relative;
       font-size: 24px;

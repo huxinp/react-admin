@@ -14,6 +14,8 @@ export default class Calendar extends React.PureComponent {
   state = {
     showTimePicker: false,
     value: moment(),
+    mode: 'month',
+    selectedValue: moment(),
   }
   getFormat = function getFormat(params) {
     
@@ -35,7 +37,7 @@ export default class Calendar extends React.PureComponent {
       disabledTime,
       prefixCls,
     } = this.props;
-    const { showTimePicker, value, selectedValue, } = this.state;
+    const { showTimePicker, value, selectedValue, mode } = this.state;
     return (
       <div>
         { renderSidebar() }
@@ -58,7 +60,7 @@ export default class Calendar extends React.PureComponent {
             ) : null
           }
           <div>
-            <CalendarHeader />
+            <CalendarHeader mode={mode} locale={locale} prefixCls={prefixCls} />
             { timePicker && showTimePicker ? (
                 React.cloneElement(timePicker, {})
               ) : null
@@ -75,6 +77,7 @@ export default class Calendar extends React.PureComponent {
 }
 
 Calendar.defaultProps = {
+  prefixCls: 'rc-calendar',
   showDateInput: true,
   renderSidebar: function () {
     return null

@@ -1,11 +1,10 @@
-import React, { PropTypes } from 'react';
-import Calendar from '../../../components/Calendar'
-
+import React from 'react';
+import Calendar from '@/rc-components/Calendar';
 export default class CalendarFeature extends React.PureComponent {
-  
+
   render() {
     return (
-      <div>
+      <div className="feature calendar-feature">
         <Calendar />
       </div>
     )

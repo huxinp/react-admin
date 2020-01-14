@@ -1,14 +1,6 @@
-import React, { Proptypes } from 'react';
-import { Link  } from 'react-router';
-import CalendarFeature from './Calendar';
-
-import './index.less';
-import Calendar from '../../../components/Calendar';
-
-const rcMap = {
-  "rc-calendar": CalendarFeature,
-}
-const rc_list = [
+import Calendar from '@/containers/Calendar';
+import Message from '@/containers/Message';
+export const rc_list = [
   "rc-align",
   "rc-animate",
   "rc-banner-anim",
@@ -64,20 +56,8 @@ const rc_list = [
   "rc-util",
   "rc-virtual-list"
 ]
-export default class antDesign extends React.PureComponent {
-  componentDidMount() {
-    
-  }
-  render() {
-    return (
-      <div className="ant-design">
-        <div className="catalog-list">
-        {/* { rc_list.map(item => <Link key={item} to={'/antDesign/' + item}>{item}</Link>) } */}
-        </div>
-        <div className="rc-containers">
-          <CalendarFeature />
-        </div>
-      </div>
-    )
-  }
+
+export const rc_Map = {
+  'rc-calendar': Calendar,
+  'antd-message': Message,
 }
