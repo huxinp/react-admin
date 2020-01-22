@@ -46,8 +46,8 @@ function notice(content) {
     let target = key++;
     return function() {
       instance.removeNotice(target);
-    }()
-  }
+    }
+  }()
 }
 
 export default {

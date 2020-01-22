@@ -16,7 +16,7 @@ export default class Notice extends React.Component {
   }
 
   componentWillUnmount() {
-    this.clearCloseTime();
+    this.clearCloseTimer();
   }
 
   close() {
@@ -26,7 +26,7 @@ export default class Notice extends React.Component {
 
   startCloseTimer() {
     if (this.props.duration) {
-      this.closeTimer = setTimeout(function () {
+      this.closeTimer = setTimeout(() => {
         this.close();
       }, this.props.duration * 1000);
     }

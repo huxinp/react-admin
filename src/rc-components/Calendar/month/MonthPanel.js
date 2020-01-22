@@ -1,9 +1,12 @@
-import React, { PropTypes } from 'react';
-
+import React from 'react';
+import PropTypes from 'prop-types';
+import YearPanel from '../year/YearPanel';
 import MonthTable from './MonthTable';
 
 function goYear(direction) {
-  this.props.changeYear(direction);
+  const next = this.state.value.clone();
+  next.add(direction, 'year');
+  this.setAndChangeValue(next);
 }
 
 function noop() {}

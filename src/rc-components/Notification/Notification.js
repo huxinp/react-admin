@@ -39,7 +39,6 @@ export default class Notification extends React.Component {
 
   add(notice) {
     const key = notice.key = notice.key || getUuid();
-    console.log('notice', notice)
     this.setState(function(previousState) {
       const notices = previousState.notices;
       if (!notices.filter(v => v.key === key).length) {

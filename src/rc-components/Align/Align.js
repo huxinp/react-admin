@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { alignElement, alignPoint } from 'dom-align';
 
-import {
-  isWindow, buffer, isSamePoint,
-  isSimilarValue, restoreFocus
-} from './util';
+import { isWindow, buffer, isSamePoint, isSimilarValue, restoreFocus } from './util';
 
 function getElement(func) {
   if (typeof func !== 'function' || !func) return null;
